@@ -8,30 +8,50 @@ import matplotlib.pyplot as plt
 # 2) Выделить из полноцветного изображения каждый из каналов R, G, B  и вывести результат.
 # Построить гистограмму по цветам (3 штуки).
 def GetCurrentChanel(image_path, color):
-    # image[:,:,i] where i = [0,1,2] means channel(0 is blue, 1 is green, 2 is red)
     try:
         img = cv2.imread(image_path)
         if color == "blue":
-            blue_channel = img[:, :, 0]
-            blue_img = np.zeros(img.shape)
-            blue_img[:, :, 0] = blue_channel
-            cv2.imwrite(os.getcwd() + "\dog_blue.jpg", blue_img)
+            # blue_channel = img[:, :, 0]
+            # blue_img = np.zeros(img.shape)
+            # blue_img[:, :, 0] = blue_channel
+            # cv2.imwrite(os.getcwd() + "\dog_blue.jpg", blue_img)
+            # cv2.imshow("Dog_blue", cv2.imread(os.getcwd() + "\dog_blue.jpg"))
+            # cv2.waitKey()
+            for y in range(0, img.shape[0]):
+                for x in range(0, img.shape[1]):
+                    (b, g, r) = img[y, x]
+                    img[y, x] = (b, 0, 0)
+            cv2.imwrite(os.getcwd() + "\dog_blue.jpg", img)
             cv2.imshow("Dog_blue", cv2.imread(os.getcwd() + "\dog_blue.jpg"))
             cv2.waitKey()
         elif color == "green":
-            green_channel = img[:, :, 1]
-            green_img = np.zeros(img.shape)
-            green_img[:, :, 1] = green_channel
-            cv2.imwrite(os.getcwd() + "\dog_green.jpg", green_img)
-            cv2.imshow("Dog_green", cv2.imread(os.getcwd() + "\dog_green.jpg"))
+            for y in range(0, img.shape[0]):
+                for x in range(0, img.shape[1]):
+                    (b, g, r) = img[y, x]
+                    img[y, x] = (0, g, 0)
+            cv2.imwrite(os.getcwd() + "\dog_green.jpg", img)
+            cv2.imshow("Dog_green", cv2.imread(os.getcwd() + "\dog_blue.jpg"))
             cv2.waitKey()
+            # green_channel = img[:, :, 1]
+            # green_img = np.zeros(img.shape)
+            # green_img[:, :, 1] = green_channel
+            # cv2.imwrite(os.getcwd() + "\dog_green.jpg", green_img)
+            # cv2.imshow("Dog_green", cv2.imread(os.getcwd() + "\dog_green.jpg"))
+            # cv2.waitKey()
         elif color == "red":
-            red_channel = img[:, :, 2]
-            red_img = np.zeros(img.shape)
-            red_img[:, :, 2] = red_channel
-            cv2.imwrite(os.getcwd() + "\dog_red.jpg", red_img)
+            for y in range(0, img.shape[0]):
+                for x in range(0, img.shape[1]):
+                    (b, g, r) = img[y, x]
+                    img[y, x] = (0, 0, r)
+            cv2.imwrite(os.getcwd() + "\dog_red.jpg", img)
             cv2.imshow("Dog_red", cv2.imread(os.getcwd() + "\dog_red.jpg"))
             cv2.waitKey()
+            # red_channel = img[:, :, 2]
+            # red_img = np.zeros(img.shape)
+            # red_img[:, :, 2] = red_channel
+            # cv2.imwrite(os.getcwd() + "\dog_red.jpg", red_img)
+            # cv2.imshow("Dog_red", cv2.imread(os.getcwd() + "\dog_red.jpg"))
+            # cv2.waitKey()
     except TypeError as er:
         print(f"File not found!")
         return
@@ -46,6 +66,8 @@ def ShowHistograms(img_path, type_color):
     plt.title("Color Histogram")
     plt.xlabel("Color value")
     plt.ylabel("Pixel count")
+    # image[:,:,i] where i = [0,1,2] means channel(0 is blue, 1 is green, 2 is red)
+
     if type_color == "blue":
         histogram, bin_edges = np.histogram(image[:, :, 0], bins=256, range=(0, 256))
         plt.plot(bin_edges[0:-1], histogram, color="blue")
